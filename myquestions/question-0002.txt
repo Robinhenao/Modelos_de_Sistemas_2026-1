@@ -1,0 +1,15 @@
+PREGUNTA 2 — pandas · Análisis y agregación temporal
+
+Escribe una función llamada `calcular_metricas_mensuales` que reciba un
+DataFrame con registros de transacciones y devuelva un resumen mensual.
+
+Columnas de entrada: fecha (datetime), categoria (str), importe (float).
+
+La función debe:
+1. Agrupar por MES (de `fecha`) y por `categoria`.
+2. Calcular: suma total, media, máximo, mínimo y nº de transacciones.
+3. Añadir columna `pct_sobre_total_mes` (% de cada categoría sobre el mes).
+4. Devolver ordenado por mes asc. y suma total desc.
+
+Firma esperada:
+    def calcular_metricas_mensuales(df: pd.DataFrame) -> pd.DataFrame:

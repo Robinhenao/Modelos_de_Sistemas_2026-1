@@ -1,0 +1,14 @@
+PREGUNTA 1 — pandas · Limpieza de datos
+
+Escribe una función llamada `limpiar_dataset_ventas` que reciba un DataFrame
+de pandas con columnas de ventas y lo devuelva limpio y listo para análisis.
+
+El DataFrame de entrada puede contener:
+- Valores nulos en columnas numéricas → imputar con la MEDIANA de cada columna.
+- Filas duplicadas → eliminarlas.
+- Columnas string con espacios extra o mayúsculas inconsistentes → normalizar
+  a minúsculas sin espacios extra.
+- Una columna `fecha` en formato string → convertir a datetime.
+
+Firma esperada:
+    def limpiar_dataset_ventas(df: pd.DataFrame) -> pd.DataFrame:

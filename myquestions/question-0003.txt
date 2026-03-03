@@ -1,0 +1,17 @@
+PREGUNTA 3 — sklearn · Pipeline de preprocesamiento y clasificación
+
+Escribe una función llamada `entrenar_clasificador_clientes` que reciba un
+DataFrame con características de clientes y una columna objetivo, construya
+un pipeline sklearn, lo entrene y devuelva el pipeline + métricas.
+
+Requisitos:
+- Numéricas → StandardScaler
+- Categóricas → OneHotEncoder(handle_unknown='ignore')
+- Clasificador: RandomForestClassifier
+- ColumnTransformer para combinar preprocesadores
+- Split: 80% train / 20% test, random_state=42
+- Retorna: (pipeline_entrenado, dict) con claves:
+    'accuracy', 'f1_score', 'classification_report'
+
+Firma esperada:
+    def entrenar_clasificador_clientes(df: pd.DataFrame, target_col: str) -> tuple:

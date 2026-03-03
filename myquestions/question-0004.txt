@@ -1,0 +1,17 @@
+PREGUNTA 4 — sklearn · Detección de anomalías y regresión
+
+Escribe una función llamada `predecir_consumo_energetico` que reciba un
+DataFrame con datos de sensores, elimine outliers con IsolationForest,
+entrene un regresor y devuelva predicciones + métricas.
+
+Requisitos:
+- IsolationForest(contamination=0.05, random_state=42) para limpiar train.
+- Regresor: GradientBoostingRegressor
+- Escalar features con MinMaxScaler antes de entrenar.
+- Split: 75% train / 25% test ANTES del IsolationForest (test nunca se toca).
+- Retorna dict con claves:
+    'predicciones' (array), 'rmse' (float), 'r2' (float),
+    'n_outliers_eliminados' (int)
+
+Firma esperada:
+    def predecir_consumo_energetico(df: pd.DataFrame, target_col: str) -> dict:
