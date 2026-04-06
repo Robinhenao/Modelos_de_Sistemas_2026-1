@@ -22,7 +22,13 @@ def generar_caso_de_uso_entrenar_clasificador_clientes():
         "segmento":         random.choices(segmentos, k=n),
     })
     print(f"Clientes: {n} | Target: 'segmento' {segmentos} | Columnas: {list(df.columns)}")
-    return df, "segmento"
+    return {"df": df, "target_col": "segmento"}, {
+    "pipeline": "RandomForestPipeline",
+    "metricas": {
+        "accuracy": 0.85,
+        "f1_score": 0.82
+        }
+    }
 
 if __name__ == "__main__":
     df_input, target = generar_caso_de_uso_entrenar_clasificador_clientes()
