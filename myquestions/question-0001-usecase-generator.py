@@ -23,10 +23,3 @@ def generar_caso_de_uso_limpiar_dataset_ventas():
     df = pd.concat([df, dupes], ignore_index=True)
     print(f"Dataset generado: {len(df)} filas, {df.isnull().sum().sum()} nulos, {df.duplicated().sum()} duplicados")
     return {"df": df}, {"df_limpio": df.copy()}
-
-
-if __name__ == "__main__":
-    df_input = generar_caso_de_uso_limpiar_dataset_ventas()
-    print("\ndf_input:")
-    print(df_input.head())
-  
