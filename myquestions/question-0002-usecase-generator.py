@@ -18,4 +18,4 @@ def generar_caso_de_uso_calcular_metricas_mensuales():
         "importe": [round(random.uniform(5, 800), 2) for _ in range(n)],
     })
     print(f"Transacciones: {n} | Categorías: {categorias} | Rango: {df['fecha'].min().date()} → {df['fecha'].max().date()}")
-    return {"df": df}, {"df_metricas": df.copy()}
+    return {"data": df.to_dict(orient='records')}, "calcular_metricas_mensuales"
