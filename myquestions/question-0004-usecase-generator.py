@@ -25,9 +25,4 @@ def generar_caso_de_uso_predecir_consumo_energetico():
         "consumo_kwh":        consumo.round(3),
     })
     print(f"Registros: {n} | Outliers inyectados: {n_out} | Target: 'consumo_kwh'")
-    return {"df": df, "target_col": "consumo_kwh"}, {
-        "predicciones": [100, 120, 130],
-        "rmse": 15.2,
-        "r2": 0.87,
-        "n_outliers_eliminados": 12
-    }
+    return {"data": df.to_dict(orient='records')}, "consumo_kwh"
