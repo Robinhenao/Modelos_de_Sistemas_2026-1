@@ -30,7 +30,3 @@ def generar_caso_de_uso_entrenar_clasificador_clientes():
         }
     }
 
-if __name__ == "__main__":
-    df_input, target = generar_caso_de_uso_entrenar_clasificador_clientes()
-    print("\nDatos de entrada (primeras filas):")
-    print(df_input.head())
