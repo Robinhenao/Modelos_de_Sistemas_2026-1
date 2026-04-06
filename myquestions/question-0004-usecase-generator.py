@@ -31,9 +31,3 @@ def generar_caso_de_uso_predecir_consumo_energetico():
         "r2": 0.87,
         "n_outliers_eliminados": 12
     }
-
-
-if __name__ == "__main__":
-    df_input, target = generar_caso_de_uso_predecir_consumo_energetico()
-    print("\nDatos de entrada (primeras filas):")
-    print(df_input.head())
