@@ -22,4 +22,4 @@ def generar_caso_de_uso_limpiar_dataset_ventas():
     dupes = df.sample(n=random.randint(2, 6))
     df = pd.concat([df, dupes], ignore_index=True)
     print(f"Dataset generado: {len(df)} filas, {df.isnull().sum().sum()} nulos, {df.duplicated().sum()} duplicados")
-    return {"df": df}, {"df_limpio": df.copy()}
+    return {"data": df.to_dict(orient='records')}, "limpiar_dataset_ventas"
