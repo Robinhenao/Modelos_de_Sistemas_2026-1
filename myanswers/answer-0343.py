@@ -5,10 +5,11 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 
-def clasificar_biomoleculas(df: pd.DataFrame) -> tuple[pd.DataFrame, np.ndarray, dict, float]:
+
+def clasificar_biomoleculas(dataset: pd.DataFrame, features: list, target: str) -> tuple[pd.DataFrame, np.ndarray, dict, float]:
 
     cols_momento = ['momento_x', 'momento_y', 'momento_z']
-    df_limpio = df.dropna(subset=cols_momento + ['clase_real']).copy()
+    df_limpio = dataset.dropna(subset=cols_momento + [target]).copy()
     mascara = (
         (df_limpio['momento_x'] >= 0) &
         (df_limpio['momento_y'] >= 0) &
@@ -27,17 +28,13 @@ def clasificar_biomoleculas(df: pd.DataFrame) -> tuple[pd.DataFrame, np.ndarray,
     df_limpio['indice_asimetria'] = np.where(denominador > 0, numerador / denominador, 0.0)
 
     le = LabelEncoder()
-    df_limpio['clase_encoded'] = le.fit_transform(df_limpio['clase_real'])
+    df_limpio['clase_encoded'] = le.fit_transform(df_limpio[target])
 
     clases_mapeadas = dict(zip(le.classes_, le.transform(le.classes_)))
     target_vector   = df_limpio['clase_encoded'].values.copy()
 
-    features = [
-        'masa_daltons', 'radio_giro_nm',
-        'momento_x', 'momento_y', 'momento_z',
-        'longitud_secuencia', 'indice_asimetria'
-    ]
-    X = df_limpio[features].values
+    features_model = features + ['indice_asimetria']
+    X = df_limpio[features_model].values
     y = df_limpio['clase_encoded'].values
 
     X_train, X_test, y_train, y_test = train_test_split(
