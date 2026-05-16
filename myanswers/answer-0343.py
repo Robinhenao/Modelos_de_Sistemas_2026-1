@@ -28,15 +28,13 @@ def clasificar_biomoleculas(dataset: pd.DataFrame, features: list, target: str) 
     df_limpio['indice_asimetria'] = np.where(denominador > 0, numerador / denominador, 0.0)
 
     le = LabelEncoder()
-    target_vector   = le.fit_transform(df_limpio[target])
-    clases_mapeadas = dict(zip(le.classes_, le.transform(le.classes_)))
+    y_encoded = le.fit_transform(df_limpio[target])
 
     features_model = features + ['indice_asimetria']
     X = df_limpio[features_model].values
-    y = target_vector.copy()
 
     X_train, X_test, y_train, y_test = train_test_split(
-        X, y, test_size=0.25, random_state=42, stratify=y
+        X, y_encoded, test_size=0.25, random_state=42, stratify=y_encoded
     )
 
     modelo = RandomForestClassifier(n_estimators=200, random_state=42, n_jobs=-1)
@@ -44,6 +42,6 @@ def clasificar_biomoleculas(dataset: pd.DataFrame, features: list, target: str) 
 
     return {
         'df_procesado': df_limpio,
-        'target_vector': target_vector,
-        'clases_mapeadas': clases_mapeadas
+        'target_vector': y_encoded,
+        'clases_mapeadas': dict(zip(le.classes_, le.transform(le.classes_)))
     }
