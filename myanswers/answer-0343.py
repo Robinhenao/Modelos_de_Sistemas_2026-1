@@ -6,7 +6,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 
 
-def clasificar_biomoleculas(dataset: pd.DataFrame, features: list, target: str) -> tuple[pd.DataFrame, np.ndarray, dict, float]:
+def clasificar_biomoleculas(dataset: pd.DataFrame, features: list, target: str) -> dict:
 
     cols_momento = ['momento_x', 'momento_y', 'momento_z']
     df_limpio = dataset.dropna(subset=cols_momento + [target]).copy()
@@ -44,8 +44,6 @@ def clasificar_biomoleculas(dataset: pd.DataFrame, features: list, target: str) 
     modelo = RandomForestClassifier(n_estimators=200, random_state=42, n_jobs=-1)
     modelo.fit(X_train, y_train)
 
-    accuracy = accuracy_score(y_test, modelo.predict(X_test))
-
     resultado_df = df_limpio.drop(columns=['clase_encoded']).copy()
     resultado_df['clase_predicha'] = le.inverse_transform(modelo.predict(X))
     resultado_df['nombre_sistema'] = (
@@ -53,4 +51,8 @@ def clasificar_biomoleculas(dataset: pd.DataFrame, features: list, target: str) 
         resultado_df['clase_predicha'].astype(str)
     )
 
-    return resultado_df, target_vector, clases_mapeadas, accuracy
+    return {
+        'df_procesado': resultado_df,
+        'target_vector': target_vector,
+        'clases_mapeadas': clases_mapeadas
+    }
