@@ -1,9 +1,15 @@
+import numpy as np
+import pandas as pd
+
 from sklearn.preprocessing import LabelEncoder
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import confusion_matrix, f1_score
 from sklearn.model_selection import train_test_split
 
 
+# =========================================================
+# SOLUCIÓN
+# =========================================================
 def detectar_fraude(df):
 
     # ==========================================
@@ -15,6 +21,7 @@ def detectar_fraude(df):
     # Codificación categórica
     # ==========================================
     le = LabelEncoder()
+
     data['pais'] = le.fit_transform(data['pais'])
 
     # ==========================================
@@ -28,6 +35,7 @@ def detectar_fraude(df):
     ]
 
     X = data[features].values
+
     y = data['fraude'].values
 
     # ==========================================
@@ -43,7 +51,7 @@ def detectar_fraude(df):
     )
 
     # ==========================================
-    # División
+    # División train/test
     # ==========================================
     X_train, X_test, y_train, y_test = train_test_split(
         X,
@@ -76,7 +84,11 @@ def detectar_fraude(df):
     cm = confusion_matrix(y_test, preds)
 
     f1 = round(
-        f1_score(y_test, preds, zero_division=0),
+        f1_score(
+            y_test,
+            preds,
+            zero_division=0
+        ),
         4
     )
 
@@ -91,20 +103,79 @@ def detectar_fraude(df):
     )
 
     # ==========================================
-    # Output EXACTO
+    # Output
     # ==========================================
     output = {
+
         'modelo': modelo,
+
         'confusion_matrix': cm,
+
         'f1': f1,
+
         'f1_weighted': f1_w,
+
         'desbalance': {
+
             'legítimas': n_legit,
+
             'fraudulentas': n_fraud,
+
             'ratio_fraude/legítima': ratio,
+
             'desbalanceado': ratio < 0.2
         },
+
         'predicciones': preds
     }
 
     return output
+
+
+# =========================================================
+# GENERADOR DE CASOS DE USO
+# =========================================================
+def generar_caso_de_uso_transacciones(
+    n=1500,
+    seed=42
+):
+
+    np.random.seed(seed)
+
+    monto = np.random.exponential(200, n)
+
+    hora = np.random.randint(0, 24, n)
+
+    pais = np.random.choice(
+        ['CO', 'US', 'MX', 'BR', 'AR'],
+        n
+    )
+
+    frecuencia_transacciones = np.random.poisson(3, n)
+
+    fraude = (
+        (monto > 500) &
+        (hora < 5)
+    ).astype(int)
+
+    df = pd.DataFrame({
+        "monto": monto,
+        "hora": hora,
+        "pais": pais,
+        "frecuencia_transacciones": frecuencia_transacciones,
+        "fraude": fraude
+    })
+
+    # ==========================================
+    # Inputs para la solución
+    # ==========================================
+    input_dict = {
+        "df": df
+    }
+
+    # ==========================================
+    # Resultado esperado
+    # ==========================================
+    expected_output = detectar_fraude(df)
+
+    return input_dict, expected_output
