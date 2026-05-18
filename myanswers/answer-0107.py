@@ -6,14 +6,12 @@ from sklearn.metrics import confusion_matrix, f1_score
 from sklearn.model_selection import train_test_split
 
 
-def solution(input_dict):
-
-    df = pd.DataFrame(input_dict['df'])
+def detectar_fraude(df):
 
     # ==========================================
     # Copia del DataFrame
     # ==========================================
-    data = df.copy()
+    data = pd.DataFrame(df).copy()
 
     # ==========================================
     # Codificación categórica
